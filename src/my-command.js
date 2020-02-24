@@ -21,7 +21,7 @@ export default function() {
     }
   }
 
-  UI.message("✨ Shared styles all clean: No out of sync layers found");
+  UI.message("✨ Shared text styles all clean: No out of sync layers found");
 
   function zoomToLayer(layer) {
     doc.selectedLayers = [];
