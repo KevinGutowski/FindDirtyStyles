@@ -3,16 +3,35 @@
   "icon": "icon.jpg",
   "commands": [
     {
-      "name": "🔎 Find Dirty Styles",
-      "identifier": "finddirtystyles.my-command-identifier",
+      "name": "🔎 Find Text Styles",
+      "handler": "findDirtyTextStyles",
+      "identifier": "finddirtystyles.findTextStyles",
       "script": "./my-command.js",
-      "shortcut": "ctrl shift f"
+      "shortcut": "ctrl cmd t"
+    },
+    {
+      "name": "Limit to current page",
+      "handler": "toggleCurrentPageSetting",
+      "identifier": "finddirtystyles.toggleCurrentPageSetting",
+      "script": "./my-command.js"
+    },
+    {
+      "name": "onStartup",
+      "handlers": {
+        "actions": {
+          "Startup": "onStartup"
+        }
+      },
+      "identifier": "finddirtystyles.onStartup",
+      "script": "./my-command.js"
     }
   ],
   "menu": {
-    "isRoot": true,
+    "name": "Dirty Styles",
     "items": [
-      "finddirtystyles.my-command-identifier"
+      "finddirtystyles.findTextStyles",
+      "-",
+      "finddirtystyles.toggleCurrentPageSetting"
     ]
   }
 }

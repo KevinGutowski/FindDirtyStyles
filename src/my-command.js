@@ -1,41 +1,51 @@
 import sketch from 'sketch'
+let Settings = sketch.Settings
 // documentation: https://developer.sketchapp.com/reference/api/
 
-export default function() {
-    let sketch = require('sketch')
+export function findDirtyTextStyles() {
     let UI = sketch.UI
     let doc = sketch.getSelectedDocument()
     let sharedTextStyles = doc.sharedTextStyles
 
-    let dirtyLayerSkipped
+    let firstLayerSkipped
+    let previouslyFound
+    if (Settings.sessionVariable('dirtyLayerIDs')) {
+        previouslyFound = Settings.sessionVariable('dirtyLayerIDs')
+    } else {
+        previouslyFound = []
+    }
 
     for (const sharedStyle of sharedTextStyles) {
-        const layers = sharedStyle.getAllInstancesLayers()
+        let layers = sharedStyle.getAllInstancesLayers()
+
+        if (Settings.settingForKey('limitToCurrentPage')) {
+            layers = layers.filter(layer => layer.getParentPage().id == doc.selectedPage.id)
+        }
 
         for (const layer of layers) {
-            let isOutOfSync = layer.style.isOutOfSyncWithSharedStyle(sharedStyle)
 
-            if (isOutOfSync) {
-                if (doc.selectedLayers.length != 0) {
-                    if (layer.id != doc.selectedLayers.layers[0].id) {
-                        UI.message("💩 Dirty style found");
-                        zoomToLayer(layer)
-                        return
-                    } else {
-                        dirtyLayerSkipped = layer
-                    }
-                } else {
-                    UI.message("💩 Dirty style found");
-                    zoomToLayer(layer)
-                    return
+            if (previouslyFound.includes(layer.id)) {
+                if (!firstLayerSkipped) {
+                    firstLayerSkipped = layer
                 }
+                continue;
+            }
+
+            let isOutOfSync = layer.style.isOutOfSyncWithSharedStyle(sharedStyle)
+            if (isOutOfSync) {
+                previouslyFound.push(layer.id)
+                Settings.setSessionVariable('dirtyLayerIDs', previouslyFound)
+                UI.message("💩 Dirty style found");
+                zoomToLayer(layer)
+                return
             }
         }
     }
 
-    if (dirtyLayerSkipped) {
-        UI.message("💩 Dirty style found");
-        zoomToLayer(dirtyLayerSkipped)
+    if (firstLayerSkipped) {
+        Settings.setSessionVariable('dirtyLayerIDs', [firstLayerSkipped.id])
+        UI.message("💩 Dirty style found (Back to top)");
+        zoomToLayer(firstLayerSkipped)
         return
     } else {
         UI.message("✨ Shared text styles all clean: No out of sync layers found");
@@ -48,4 +58,35 @@ export default function() {
         layer.selected = true;
         doc.sketchObject.eventHandlerManager().currentHandler().zoomToSelection()
     }
+}
+
+export function toggleCurrentPageSetting() {
+    let limitToCurrentPageMenuItem = getMenuItem()
+
+    if (limitToCurrentPageMenuItem.state() == NSControlStateValueOff) {
+        Settings.setSettingForKey('limitToCurrentPage', true)
+        limitToCurrentPageMenuItem.state = NSControlStateValueOn
+    } else {
+        Settings.setSettingForKey('limitToCurrentPage', false)
+        limitToCurrentPageMenuItem.state = NSControlStateValueOff
+    }
+}
+
+export function onStartup() {
+    let limitToCurrentPageSetting = Settings.settingForKey('limitToCurrentPage')
+    let limitToCurrentPageMenuItem = getMenuItem()
+
+    if (limitToCurrentPageSetting) {
+        limitToCurrentPageMenuItem.state = NSControlStateValueOn
+    } else {
+        limitToCurrentPageMenuItem.state = NSControlStateValueOff
+    }
+}
+
+function getMenuItem() {
+    let menu = NSApplication.sharedApplication().mainMenu()
+    let pluginsMenu = menu.itemWithTitle('Plugins').submenu()
+    let dirtyStylesMenu = pluginsMenu.itemWithTitle('Find Dirty Styles').submenu()
+    let limitToCurrentPageMenuItem = dirtyStylesMenu.itemWithTitle('Limit to current page')
+    return limitToCurrentPageMenuItem
 }
