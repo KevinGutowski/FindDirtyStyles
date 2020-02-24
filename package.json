@@ -23,5 +23,9 @@
   "devDependencies": {
     "@skpm/builder": "^0.7.0"
   },
-  "author": "Kevin Gutowski <kgutowski@berkeley.edu>"
+  "author": "Kevin Gutowski <kgutowski@berkeley.edu>",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/KevinGutowski/FindDirtyStyles"
+  }
 }
