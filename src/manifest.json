@@ -1,6 +1,6 @@
 {
   "$schema": "https://raw.githubusercontent.com/sketch-hq/SketchAPI/develop/docs/sketch-plugin-manifest-schema.json",
-  "icon": "icon.png",
+  "icon": "icon.jpg",
   "commands": [
     {
       "name": "🔎 Find Dirty Styles",
