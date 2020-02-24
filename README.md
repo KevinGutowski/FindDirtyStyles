@@ -2,6 +2,14 @@
 
 A Sketch plugin to easily find text layers that are out of sync with their shared styles (layer styles will be added soon).
 
+![](images/finddirtytextstyles.gif)
+
+## Usage
+
+Clicking on `Plugins > Find Dirty Styles > 🔎 Find Text Styles` (or <kbd>^ Ctrl</kbd> + <kbd>⌘ Cmd</kbd> + <kbd>t</kbd>) will find and cycle through text layers that have been modified from their shared text style.
+
+You can also limit the scope of the search to only include layers from your current page.
+
 ## Installation
 
 - [Download](../../releases/latest/download/finddirtystyles.sketchplugin.zip) the latest release of the plugin
