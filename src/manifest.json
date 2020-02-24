@@ -1,0 +1,18 @@
+{
+  "$schema": "https://raw.githubusercontent.com/sketch-hq/SketchAPI/develop/docs/sketch-plugin-manifest-schema.json",
+  "icon": "icon.png",
+  "commands": [
+    {
+      "name": "🔎 Find Dirty Styles",
+      "identifier": "finddirtystyles.my-command-identifier",
+      "script": "./my-command.js",
+      "shortcut": "ctrl shift f"
+    }
+  ],
+  "menu": {
+    "isRoot": true,
+    "items": [
+      "finddirtystyles.my-command-identifier"
+    ]
+  }
+}
