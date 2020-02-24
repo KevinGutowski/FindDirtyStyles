@@ -1,6 +1,6 @@
-# FindDirtyStyles
+# Find Dirty Styles
 
-A Sketch plugin to easily find text layers that are out of sync with their shared styles.
+A Sketch plugin to easily find text layers that are out of sync with their shared styles (layer styles will be added soon).
 
 ## Installation
 
