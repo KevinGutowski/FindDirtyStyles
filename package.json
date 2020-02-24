@@ -1,6 +1,6 @@
 {
   "name": "finddirtystyles",
-  "description": "",
+  "description": "A Sketch plugin to easily find text layers that are out of sync with their shared styles.",
   "version": "0.1.0",
   "engines": {
     "sketch": ">=49.0"
