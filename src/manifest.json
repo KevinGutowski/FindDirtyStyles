@@ -10,6 +10,13 @@
       "shortcut": "ctrl cmd t"
     },
     {
+      "name": "🔎 Find Layer Styles",
+      "handler": "findDirtyLayerStyles",
+      "identifier": "finddirtystyles.findLayerStyles",
+      "script": "./my-command.js",
+      "shortcut": "ctrl cmd l"
+    },
+    {
       "name": "Limit to current page",
       "handler": "toggleCurrentPageSetting",
       "identifier": "finddirtystyles.toggleCurrentPageSetting",
@@ -30,6 +37,7 @@
     "name": "Dirty Styles",
     "items": [
       "finddirtystyles.findTextStyles",
+      "finddirtystyles.findLayerStyles",
       "-",
       "finddirtystyles.toggleCurrentPageSetting"
     ]
